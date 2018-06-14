@@ -1,0 +1,40 @@
+spring:
+    jackson:
+        serialization:
+            INDENT_OUTPUT: true
+    application:
+        name: iot-service
+    jpa:
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+        generate-ddl: true
+        show-sql: true
+        hibernate:
+            ddl-auto: none
+        properties:
+            hibernate:
+                temp:
+                use_jdbc_metadata_defaults: false
+    datasource:
+        platform: postgres
+        url: jdbc:postgresql://192.168.99.100:5432/iotdata
+        username: postgres
+        password: mysecretpassword
+        driver-class-name: org.postgresql.Driver
+
+jwt:
+    header: Authorization
+    secret: mySecret
+    expiration: 604800
+    route:
+        authentication:
+            path: /auth
+            refresh: /refresh
+            logout: /logout
+
+mqtt:
+    serverip: tcp://192.168.99.100
+    serverport: 1883
+
+server:
+  port: 8000
