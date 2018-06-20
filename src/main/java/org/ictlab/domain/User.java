@@ -1,5 +1,8 @@
 package org.ictlab.domain;
 
+import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.Cascade;
+
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -24,6 +27,7 @@ public class User {
     @Column(name = "PASSWORD")
     @NotNull
     @Size(min = 4)
+    @JsonIgnore
     private String password;
 
     @Column(name = "FIRSTNAME", length = 50)
@@ -52,16 +56,23 @@ public class User {
             name = "APPUSER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+    @JsonIgnoreProperties("users")
     private List<Authority> authorities;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = "MESSAGE_APPUSER",
         joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
         inverseJoinColumns = {@JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID")})
+    @JsonIgnoreProperties("users")
     private List<Message> messages;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
+    @JoinTable(
+        name = "RESERVATION_APPUSER",
+        joinColumns = {@JoinColumn(name = "RESERVATION_ID", referencedColumnName = "ID")},
+        inverseJoinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")})
+    @JsonIgnoreProperties("users")
     private List<Reservation> reservations;
 
     public Long getId() {

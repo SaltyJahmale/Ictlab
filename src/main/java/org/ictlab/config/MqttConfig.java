@@ -32,7 +32,8 @@ public class MqttConfig implements MqttCallback {
         this.sensorDataRepository = sensorDataRepository;
     }
 
-    @Bean    public boolean connect() {
+    @Bean
+    public boolean connect() {
         String connectionUrl = String.format("%s:%s", this.serverIp, this.serverPort);
         try {
             this.client = new MqttClient(connectionUrl, UUID.randomUUID().toString());

@@ -10,7 +10,7 @@ spring:
         generate-ddl: true
         show-sql: true
         hibernate:
-            ddl-auto: create
+            ddl-auto: none
         properties:
             hibernate:
                 temp:
@@ -31,3 +31,7 @@ jwt:
             path: /auth
             refresh: /refresh
             logout: /logout
+
+mqtt:
+    serverip: tcp://192.168.99.100
+    serverport: 1883

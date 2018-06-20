@@ -1,7 +1,10 @@
 package org.ictlab.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -12,18 +15,19 @@ public class Message {
     @SequenceGenerator(name = "message_seq", sequenceName = "message_seq", allocationSize = 1)
     private Long id;
 
-    @Column(name = "TITLE")
+    @Column(name = "STATE")
     @NotNull
-    private String title;
+    private String state;
 
     @Column(name = "MSG")
     @NotNull
     private String msg;
 
-    @Column(name = "STATE")
+    @Column(name = "SENDDATE")
     @NotNull
-    private State state;
+    private LocalDateTime localDateTime;
 
+    @JsonIgnoreProperties("messages")
     @ManyToMany(mappedBy = "messages")
     private List<User> users;
 
@@ -35,14 +39,6 @@ public class Message {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getMsg() {
         return msg;
     }
@@ -52,10 +48,26 @@ public class Message {
     }
 
     public State getState() {
-        return state;
+        return State.fromValue(state);
     }
 
     public void setState(State state) {
-        this.state = state;
+        this.state = state.toValue();
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -39,8 +38,9 @@ public class ReservationController {
     }
 
     @GetMapping(value = "/{start}{end}")
-    public Collection<Reservation> test(@PathVariable("start") LocalDateTime start,
-                                  @PathVariable("end") LocalDateTime end) {
+    public Collection<Reservation> reservationsBetweenDates(
+        @PathVariable("start") LocalDateTime start,
+        @PathVariable("end") LocalDateTime end) {
         return reservationService.findInBetweenDates(start, end);
     }
 

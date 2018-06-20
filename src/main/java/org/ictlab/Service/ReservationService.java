@@ -30,6 +30,10 @@ public class ReservationService {
         return reservationRepository.findById(id);
     }
 
+    public Reservation findByDate(LocalDateTime start, LocalDateTime end) {
+        return reservationRepository.findByStartGreaterThanAndEndLessThan(start, end);
+    }
+
     public Collection<Reservation> findAll() {
         return reservationRepository.findAll();
     }
