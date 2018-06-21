@@ -1,11 +1,14 @@
 package org.ictlab.rest;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ictlab.Service.MessageService;
 import org.ictlab.Service.UserService;
 import org.ictlab.domain.Message;
 import org.ictlab.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/messages")
 public class MessageController {
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+
 
     private final UserService userService;
     private final MessageService messageService;
@@ -24,24 +30,32 @@ public class MessageController {
     }
 
     @GetMapping(value = "/{username}")
-    public List<Message> getAllById(@PathVariable("username") String username) {
+    public ResponseEntity<List<Message>> getAllById(@PathVariable("username") String username) {
+
+        Boolean userExists = userService.usernameExist(username);
+        if(!userExists) {
+            log.info(String.format("User with the username %s could not be found", username));
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         User user = userService.getUser(username);
-
-        return messageService.getAllMessagesByUserId(user.getId());
+        log.info(String.format("Get all messages from user with username %s", username));
+        return new ResponseEntity<>(messageService.getAllMessagesByUserId(user.getId()), HttpStatus.OK);
     }
 
     @PostMapping(value = "/{username}")
-    public void createMessage(@PathVariable("username") String username,
-                              @RequestBody Message message) {
-        Boolean user1 = userService.usernameExist(username);
-        if(!user1) {
-//            log.info(String.format("User with the username %s could not be found", username));
-            System.out.println("Not found");
+    public ResponseEntity createMessage(@PathVariable("username") String username,
+                                  @RequestBody Message message) {
+        Boolean userExists = userService.usernameExist(username);
+        if(!userExists) {
+            log.info(String.format("User with the username %s could not be found", username));
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         User user = userService.getUser(username);
         user.getMessages().add(message);
         userService.saveUser(user);
+        log.info(String.format("Message got send to user with username %s", username));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping(value = "/mqtt")
 public class MqttController {
 
-    private Logger log = LoggerFactory.getLogger(MqttController.class);
+    private Logger log = LoggerFactory.getLogger(this.getClass());
     private final MqttConfig sub;
     private final SensorNodeService sensorNodeService;
 

@@ -9,4 +9,5 @@ import java.util.List;
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
     List<Group> findAllByGroupNameContaining(@NotNull String groupName);
+    Group findByGroupName(@NotNull String groupName);
 }
