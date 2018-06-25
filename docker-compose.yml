@@ -15,9 +15,6 @@ services:
             - '8080:8080'
         command: npm run dev
     backend:
-        image: martidono/backend
+        image: martidono/spring-backend-v1
         ports:
             - '8000:8000'
-#        depends-on:
-#            - db
-#            - mqtt
