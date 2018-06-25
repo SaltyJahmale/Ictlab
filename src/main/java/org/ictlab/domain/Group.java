@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,12 @@ public class Group {
     @Column(name = "CLASSNAME", unique = true)
     @NotNull
     private String groupName;
+
+    @Column(name = "MEMBERS")
+    @Null
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private List<User> members;
 
     @JsonIgnore
     @JsonIgnoreProperties("groups")
@@ -40,6 +47,14 @@ public class Group {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public List<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
     }
 
     public List<SchoolSchedule> getSchoolSchedules() {

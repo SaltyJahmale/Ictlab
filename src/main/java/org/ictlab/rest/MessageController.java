@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/messages")
@@ -44,8 +45,8 @@ public class MessageController {
     }
 
     @PostMapping(value = "/{username}")
-    public ResponseEntity createMessage(@PathVariable("username") String username,
-                                  @RequestBody Message message) {
+    public ResponseEntity sendMessageToUser(@PathVariable("username") String username,
+                                            @RequestBody Message message) {
         Boolean userExists = userService.usernameExist(username);
         if(!userExists) {
             log.info(String.format("User with the username %s could not be found", username));
@@ -57,5 +58,20 @@ public class MessageController {
         userService.saveUser(user);
         log.info(String.format("Message got send to user with username %s", username));
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteMessageById(@PathVariable("id") Long id) {
+
+        Optional<Message> message = messageService.getMessageById(id);
+
+        if(message == null) {
+            log.info(String.format("Message with id %s could not be found", id));
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        log.info(String.format("Delete message with id %s", id));
+        messageService.deleteMessageById(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

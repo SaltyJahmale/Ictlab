@@ -75,6 +75,10 @@ public class User {
     @JsonIgnoreProperties("users")
     private List<Reservation> reservations;
 
+    @OneToMany(mappedBy = "members")
+    @JsonIgnore
+    private Group member;
+
     public Long getId() {
         return id;
     }
@@ -161,5 +165,13 @@ public class User {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public Group getMember() {
+        return member;
+    }
+
+    public void setMember(Group member) {
+        this.member = member;
     }
 }
