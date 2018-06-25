@@ -75,7 +75,7 @@ public class User {
     @JsonIgnoreProperties("users")
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "members")
+    @ManyToOne
     @JsonIgnore
     private Group member;
 

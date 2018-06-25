@@ -24,8 +24,7 @@ public class Group {
 
     @Column(name = "MEMBERS")
     @Null
-    @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @OneToMany(mappedBy = "member")
     private List<User> members;
 
     @JsonIgnore
