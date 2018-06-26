@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface SchoolScheduleRepository extends JpaRepository<SchoolSchedule, Long> {
     List<SchoolSchedule> findAllByStartGreaterThanAndEndLessThan(@NotNull LocalDateTime start, @NotNull LocalDateTime end);
+    SchoolSchedule findByStartLessThanEqualAndEndGreaterThanEqual(@NotNull LocalDateTime start, @NotNull LocalDateTime end);
 }

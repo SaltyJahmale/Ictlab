@@ -33,8 +33,8 @@ public class MessageController {
     @GetMapping(value = "/{username}")
     public ResponseEntity<List<Message>> getAllById(@PathVariable("username") String username) {
 
-        Boolean userExists = userService.usernameExist(username);
-        if(!userExists) {
+        User userExists = userService.getUser(username);
+        if(userExists == null) {
             log.info(String.format("User with the username %s could not be found", username));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -47,8 +47,8 @@ public class MessageController {
     @PostMapping(value = "/{username}")
     public ResponseEntity sendMessageToUser(@PathVariable("username") String username,
                                             @RequestBody Message message) {
-        Boolean userExists = userService.usernameExist(username);
-        if(!userExists) {
+        User userExists = userService.getUser(username);
+        if(userExists == null) {
             log.info(String.format("User with the username %s could not be found", username));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

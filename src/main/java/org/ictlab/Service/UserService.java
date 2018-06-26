@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -23,7 +23,8 @@ public class UserService {
     }
 
     public void saveUser(User user) {
-        if(!usernameExist(user.getUsername())) {
+        if(getUser(user.getUsername()) == null) {
+            System.out.println("Dit is het wachtwoord" + user.getPassword());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userRepository.save(user);
@@ -33,8 +34,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public boolean usernameExist(String username) {
-        return userRepository.findByUsername(username) != null;
+    public Optional<User> usernameExist(String username) {
+        return Optional.ofNullable(userRepository.findByUsername(username));
     }
 
     public User getUser(String username) {

@@ -22,6 +22,10 @@ public class SchoolScheduleService {
         schoolScheduleRepository.save(schoolSchedule);
     }
 
+    public SchoolSchedule findByDate(LocalDateTime start, LocalDateTime end) {
+        return schoolScheduleRepository.findByStartLessThanEqualAndEndGreaterThanEqual(start, end);
+    }
+
     public List<SchoolSchedule> getAllSchoolSchedules() {
         return schoolScheduleRepository.findAll();
     }

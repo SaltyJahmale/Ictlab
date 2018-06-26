@@ -31,7 +31,7 @@ public class ReservationService {
     }
 
     public Reservation findByDate(LocalDateTime start, LocalDateTime end) {
-        return reservationRepository.findByStartGreaterThanAndEndLessThan(start, end);
+        return reservationRepository.findByStartLessThanEqualAndEndGreaterThanEqual(start, end);
     }
 
     public Collection<Reservation> findAll() {

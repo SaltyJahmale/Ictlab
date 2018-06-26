@@ -9,5 +9,5 @@ import java.util.Collection;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     Collection<Reservation> findAllByStartGreaterThanAndEndLessThan(@NotNull LocalDateTime start, @NotNull LocalDateTime end);
-    Reservation findByStartGreaterThanAndEndLessThan(@NotNull LocalDateTime start, @NotNull LocalDateTime end);
+    Reservation findByStartLessThanEqualAndEndGreaterThanEqual(@NotNull LocalDateTime start, @NotNull LocalDateTime end);
 }

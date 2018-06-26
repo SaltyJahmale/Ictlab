@@ -27,7 +27,6 @@ public class User {
     @Column(name = "PASSWORD")
     @NotNull
     @Size(min = 4)
-    @JsonIgnore
     private String password;
 
     @Column(name = "FIRSTNAME", length = 50)
@@ -67,7 +66,7 @@ public class User {
     @JsonIgnoreProperties("users")
     private List<Message> messages;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = "RESERVATION_APPUSER",
         joinColumns = {@JoinColumn(name = "RESERVATION_ID", referencedColumnName = "ID")},

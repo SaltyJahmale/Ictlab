@@ -17,6 +17,7 @@ import org.ictlab.security.JwtTokenUtil;
 import org.ictlab.security.JwtUser;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserRestController {
@@ -47,7 +48,7 @@ public class UserRestController {
 
     @PostMapping(value = "/signup")
     public ResponseEntity singup(@RequestBody User user) {
-        if(userService.usernameExist(user.getUsername())) {
+        if(userService.getUser(user.getUsername()) != null) {
             log.info(String.format("User with the username %s is already is use", user.getUsername()));
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
@@ -60,8 +61,8 @@ public class UserRestController {
     public ResponseEntity updateUser(@RequestBody User user,
                                      @PathVariable("username") String username) {
 
-        Boolean userExists = userService.usernameExist(username);
-        if(!userExists) {
+        User userExists = userService.getUser(username);
+        if(userExists == null) {
             log.info(String.format("User with the username %s could not be found", username));
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -80,8 +81,8 @@ public class UserRestController {
 
     @GetMapping(value = "/users/{username}")
     public ResponseEntity<User> getUser (@PathVariable("username") String username) {
-        Boolean userExists = userService.usernameExist(username);
-        if(!userExists) {
+        User userExists = userService.getUser(username);
+        if(userExists == null) {
             log.info(String.format("User with the username %s could not be found", username));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -103,8 +104,8 @@ public class UserRestController {
 
     @DeleteMapping(value = "/users/{username}")
     public ResponseEntity deleteUser (@PathVariable("username") String username) {
-        Boolean userExists = userService.usernameExist(username);
-        if(!userExists) {
+        User userExists = userService.getUser(username);
+        if(userExists == null) {
             log.info(String.format("User with the username %s could not be found", username));
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
