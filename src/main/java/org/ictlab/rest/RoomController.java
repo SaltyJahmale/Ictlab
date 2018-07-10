@@ -24,9 +24,11 @@ public class RoomController {
         this.roomService = roomService;
     }
 
+    /**
+     * @return List<Room>
+     */
     @GetMapping
     public List<Room> getAllRooms() {
-
         log.info("Succesfully returned a list of groups");
         return roomService.getAllRooms();
     }

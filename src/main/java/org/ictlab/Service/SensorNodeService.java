@@ -17,18 +17,31 @@ public class SensorNodeService {
         this.sensorNodeRepository = sensorNodeRepository;
     }
 
+    /**
+     * @param sensorNode
+     */
     public void createOrUpdate(SensorNode sensorNode) {
         sensorNodeRepository.save(sensorNode);
     }
 
+    /**
+     * @param name
+     * @return SensorNode
+     */
     public SensorNode findByName(String name) {
         return sensorNodeRepository.findByName(name);
     }
 
+    /**
+     * @return List<SensorNode>
+     */
     public List<SensorNode> findAll() {
         return sensorNodeRepository.findAll();
     }
 
+    /**
+     * @param sensorNode
+     */
     public void removeNode(SensorNode sensorNode) {
         sensorNodeRepository.delete(sensorNode);
     }

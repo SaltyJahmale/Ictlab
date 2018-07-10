@@ -18,26 +18,42 @@ public class SensorNodeController {
         this.sensorNodeService = sensorNodeService;
     }
 
+    /**
+     * @param name
+     * @return SensorNode
+     */
     @GetMapping(value = "/{name}")
     public SensorNode getSensorNode(@PathVariable String name) {
         return sensorNodeService.findByName(name);
     }
 
+    /**
+     * @return List<SensorNode>
+     */
     @GetMapping(value = "")
     public List<SensorNode> getAllSensorNodes() {
         return sensorNodeService.findAll();
     }
 
-    @PostMapping(value = "")
+    /**
+     * @param sensorNode
+     */
+    @PostMapping
     public void createNode(@RequestBody SensorNode sensorNode) {
         sensorNodeService.createOrUpdate(sensorNode);
     }
 
+    /**
+     * @param sensorNode
+     */
     @PutMapping
     public void updateNode(@RequestBody SensorNode sensorNode) {
         sensorNodeService.createOrUpdate(sensorNode);
     }
 
+    /**
+     * @param name
+     */
     @DeleteMapping(value = "/{name}")
     public void deleteNode(@PathVariable String name) {
         SensorNode sensorNode = sensorNodeService.findByName(name);

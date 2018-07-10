@@ -1,18 +1,17 @@
 package org.ictlab.rest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.ictlab.Service.MessageService;
 import org.ictlab.Service.UserService;
 import org.ictlab.domain.Message;
 import org.ictlab.domain.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/messages")
@@ -30,6 +29,10 @@ public class MessageController {
         this.userService = userService;
     }
 
+    /**
+     * @param username
+     * @return Http status code
+     */
     @GetMapping(value = "/{username}")
     public ResponseEntity<List<Message>> getAllById(@PathVariable("username") String username) {
 
@@ -44,6 +47,11 @@ public class MessageController {
         return new ResponseEntity<>(messageService.getAllMessagesByUserId(user.getId()), HttpStatus.OK);
     }
 
+    /**
+     * @param username
+     * @param message
+     * @return Http status code
+     */
     @PostMapping(value = "/{username}")
     public ResponseEntity sendMessageToUser(@PathVariable("username") String username,
                                             @RequestBody Message message) {
@@ -60,6 +68,11 @@ public class MessageController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * @param id
+     * @param username
+     * @return Http status code
+     */
     @DeleteMapping(value = "/{id}/{username}")
     public ResponseEntity deleteMessageById(@PathVariable("id") Long id,
                                             @PathVariable("username") String username) {
@@ -76,7 +89,6 @@ public class MessageController {
         userService.saveUser(user);
 
         log.info(String.format("Delete message with id %s", id));
-//        messageService.deleteMessageById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

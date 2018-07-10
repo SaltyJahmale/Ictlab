@@ -17,6 +17,9 @@ public class TeacherService {
         this.teacherRepository = teacherRepository;
     }
 
+    /**
+     * @return List<Teacher>
+     */
     public List<Teacher> getAllTeachers() {
         return teacherRepository.findAll();
     }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,6 +34,11 @@ public class ReservationController {
         this.schoolScheduleService = schoolScheduleService;
     }
 
+    /**
+     * @param reservation
+     * @param username
+     * @return Http status code
+     */
     @PostMapping(value = "/simple/{username}")
     public ResponseEntity createReservation(@RequestBody Reservation reservation,
                                             @PathVariable("username") String username) {
@@ -70,6 +76,10 @@ public class ReservationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * @param id
+     * @return Reservation
+     */
     @GetMapping(value = "/{id}")
     public Optional<Reservation> reservationById(@PathVariable("id") Long id) {
         log.info(String.format("Got the reservation with id: %s", id));
@@ -77,14 +87,22 @@ public class ReservationController {
     }
 
 
+    /**
+     * @return Collection<Reservation>
+     */
     @GetMapping(value = "/reservations")
     public Collection<Reservation> reservationList() {
         log.info("Returned a list of reservations");
         return reservationService.findAll();
     }
 
+    /**
+     * @param start
+     * @param end
+     * @return Collection<Reservation>
+     */
     @GetMapping(value = "/reservations/{start}{end}")
-    public Collection<Reservation> reservationsBetweenDates(
+    public List<Reservation> reservationsBetweenDates(
         @PathVariable("start") LocalDateTime start,
         @PathVariable("end") LocalDateTime end) {
 
@@ -92,6 +110,11 @@ public class ReservationController {
         return reservationService.findInBetweenDates(start, end);
     }
 
+    /**
+     * @param id
+     * @param username
+     * @return Http status code
+     */
     @DeleteMapping(value = "/{id}/{username}")
     public ResponseEntity deleteReservation(@PathVariable("id") Long id,
                                             @PathVariable("username") String username) {
@@ -110,6 +133,10 @@ public class ReservationController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    /**
+     * @param username
+     * @return Reservation
+     */
     @GetMapping(value = "/user/{username}")
     public ResponseEntity getByUserId(@PathVariable("username") String username) {
 

@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -23,6 +22,9 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * @param user
+     */
     public void saveUser(User user) {
         if(getUser(user.getUsername()) == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -30,32 +32,40 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**
+     * @param user
+     */
     public void updateUser(User user) {
         userRepository.save(user);
     }
 
-    public Optional<User> usernameExist(String username) {
-        return Optional.ofNullable(userRepository.findByUsername(username));
-    }
-
+    /**
+     * @param username
+     * @return User
+     */
     public User getUser(String username) {
         return userRepository.findByUsername(username);
     }
 
+    /**
+     * @return List<User>
+     */
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    /**
+     * @param user
+     */
     public void deleteUser(User user) {
         userRepository.delete(user);
     }
 
+    /**
+     * @param groupName
+     * @return List<User>
+     */
     public List<User> getAllByClass(Group groupName) {
         return userRepository.findAllByClassName(groupName);
     }
-
-    public void saveAllMessages(List<User> users) {
-        userRepository.saveAll(users);
-    }
-
 }

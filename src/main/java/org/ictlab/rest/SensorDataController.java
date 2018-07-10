@@ -20,16 +20,26 @@ public class SensorDataController {
         this.sensorDataService = sensorDataService;
     }
 
+    /**
+     * @param id
+     * @return SenorData
+     */
     @GetMapping(value = "/{id}")
     public Optional<SensorData> getSensorData(@PathVariable Long id) {
         return sensorDataService.findById(id);
     }
 
+    /**
+     * @return List<SensorData>
+     */
     @GetMapping
     public List<SensorData> getAllSensorData() {
         return sensorDataService.findAll();
     }
 
+    /**
+     * @param sensorData
+     */
     @PostMapping
     public void createNodeData(@RequestBody SensorData sensorData) {
         sensorDataService.createOrUpdate(sensorData);

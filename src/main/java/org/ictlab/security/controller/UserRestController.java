@@ -39,6 +39,10 @@ public class UserRestController {
     }
 
 
+    /**
+     * @param request
+     * @return JwtUser
+     */
     @GetMapping(value = "/user")
     public JwtUser getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
@@ -46,6 +50,10 @@ public class UserRestController {
         return (JwtUser) userDetailsService.loadUserByUsername(username);
     }
 
+    /**
+     * @param user
+     * @return Http status code
+     */
     @PostMapping(value = "/signup")
     public ResponseEntity singup(@RequestBody User user) {
         if(userService.getUser(user.getUsername()) != null) {
@@ -57,6 +65,11 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    /**
+     * @param user
+     * @param username
+     * @return Http status code
+     */
     @PutMapping(value = "/users/{username}")
     public ResponseEntity updateUser(@RequestBody User user,
                                      @PathVariable("username") String username) {
@@ -79,6 +92,10 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    /**
+     * @param username
+     * @return User
+     */
     @GetMapping(value = "/users/{username}")
     public ResponseEntity<User> getUser (@PathVariable("username") String username) {
         User userExists = userService.getUser(username);
@@ -92,6 +109,9 @@ public class UserRestController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    /**
+     * @return List<User>
+     */
     @GetMapping(value = "/users")
     public ResponseEntity<List<User>> findAllUsers() {
         if(userService.getAllUsers().isEmpty()) {
@@ -102,6 +122,10 @@ public class UserRestController {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
+    /**
+     * @param username
+     * @return Http status code
+     */
     @DeleteMapping(value = "/users/{username}")
     public ResponseEntity deleteUser (@PathVariable("username") String username) {
         User userExists = userService.getUser(username);

@@ -25,6 +25,9 @@ public class MqttController {
         this.sensorNodeService = sensorNodeService;
     }
 
+    /**
+     * @param sensorNode
+     */
     @PostMapping("/node")
     public void createNode(@RequestBody SensorNode sensorNode) {
         try {
@@ -34,6 +37,9 @@ public class MqttController {
         }
     }
 
+    /**
+     * @param sensorName
+     */
     @PutMapping("/sub/{name}")
     public void subscribeToTopic(@PathVariable("name") String sensorName) {
         try {
@@ -46,6 +52,9 @@ public class MqttController {
         }
     }
 
+    /**
+     * @param sensorName
+     */
     @PutMapping("/unsub/{name}")
     public void unsubscribeFromTopic(@PathVariable("name") String sensorName) {
         try {
@@ -58,11 +67,18 @@ public class MqttController {
         }
     }
 
+    /**
+     * @param name
+     * @return SensorNode
+     */
     @GetMapping("/node")
     public SensorNode getNodeById(@RequestHeader String name ) {
         return sensorNodeService.findByName(name);
     }
 
+    /**
+     * @return List<SensorNode>
+     */
     @GetMapping("/nodes")
     public List<SensorNode> getAllNodes() {
         return sensorNodeService.findAll();

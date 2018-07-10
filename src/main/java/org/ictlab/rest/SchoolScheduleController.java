@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/schoolschedule")
@@ -34,6 +33,11 @@ public class SchoolScheduleController {
         this.messageService = messageService;
     }
 
+    /**
+     * @param schoolSchedule
+     * @param groupName
+     * @return Http status code
+     */
     @PostMapping(value = "/{groupName}")
     public ResponseEntity createSchoolSchedule(@RequestBody SchoolSchedule schoolSchedule,
                                                @PathVariable("groupName") String groupName) {
@@ -63,6 +67,11 @@ public class SchoolScheduleController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * @param start
+     * @param end
+     * @return List<SchoolSchedule>
+     */
     @GetMapping(value = "/{start}{end}")
     public List<SchoolSchedule> getAllSchoolSchedulesBetweenDates(
         @PathVariable("start") LocalDateTime start,
@@ -70,11 +79,18 @@ public class SchoolScheduleController {
         return schoolScheduleService.getAllSchoolSchedulesBetweenDates(start, end);
     }
 
+    /**
+     * @return List<SchoolSchedule>
+     */
     @GetMapping
     public List<SchoolSchedule> getAllSchoolSchedules() {
         return schoolScheduleService.getAllSchoolSchedules();
     }
 
+    /**
+     * @param schoolSchedule
+     * @return Http status code
+     */
     @PutMapping(value = "/edit")
     public ResponseEntity updateSchedule(@RequestBody SchoolSchedule schoolSchedule) {
 
@@ -96,7 +112,7 @@ public class SchoolScheduleController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        SchoolSchedule schoolSchedule1 = schoolScheduleService.asdas(schoolSchedule.getId());
+        SchoolSchedule schoolSchedule1 = schoolScheduleService.getById(schoolSchedule.getId());
         schoolSchedule1.setId(schoolSchedule.getId());
         schoolSchedule1.setTitle(schoolSchedule.getTitle());
         schoolSchedule1.setStart(schoolSchedule.getStart());
@@ -104,7 +120,6 @@ public class SchoolScheduleController {
         schoolSchedule1.setRooms(schoolSchedule.getRooms());
         schoolSchedule1.setTeachers(schoolSchedule.getTeachers());
         schoolSchedule1.setUsers(schoolSchedule.getUsers());
-
 
         List<User> users = schoolSchedule.getUsers();
         Message message = new Message();
@@ -117,26 +132,34 @@ public class SchoolScheduleController {
         }
 
         schoolScheduleService.saveSchoolSchedule(schoolSchedule1);
-
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * @param schoolSchedule
+     * @param username
+     * @return Http status code
+     */
     @PutMapping(value = "/enroll/{username}")
-    public void enroll(@RequestBody SchoolSchedule schoolSchedule,
+    public ResponseEntity enroll(@RequestBody SchoolSchedule schoolSchedule,
                        @PathVariable("username") String username) {
 
         User user = userService.getUser(username);
 
-        SchoolSchedule schoolSchedule1 = schoolScheduleService.asdas(schoolSchedule.getId());
+        SchoolSchedule schoolSchedule1 = schoolScheduleService.getById(schoolSchedule.getId());
         schoolSchedule1.getUsers().add(user);
 
         schoolScheduleService.saveSchoolSchedule(schoolSchedule1);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
+    /**
+     * @param id
+     * @return SchoolSchedule
+     */
     @GetMapping(value = "/{id}")
-    public Optional<SchoolSchedule> getById(@PathVariable("id") Long id) {
-        return schoolScheduleService.getById(id);
+    public ResponseEntity<SchoolSchedule> getById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(schoolScheduleService.getById(id), HttpStatus.OK);
     }
 
 }

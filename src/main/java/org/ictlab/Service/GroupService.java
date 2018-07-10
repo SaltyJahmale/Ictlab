@@ -18,14 +18,24 @@ public class GroupService {
         this.groupRepository = groupRepository;
     }
 
+    /**
+     * @param groupName
+     * @return Group
+     */
     public Group getGroupByName(String groupName) {
         return groupRepository.findByGroupName(groupName);
     }
 
+    /**
+     * @return List<Group>
+     */
     public List<Group> getAllGroups() {
         return groupRepository.getAllClasses();
     }
 
+    /**
+     * @return List<Group>
+     */
     public List<Group> getAllGroupsContaining() {
         return groupRepository.findAll();
     }

@@ -18,6 +18,9 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
+    /**
+     * @return List<Room>
+     */
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }

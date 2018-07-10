@@ -22,6 +22,9 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
+    /**
+     * @return List<Teacher>
+     */
     @GetMapping
     public ResponseEntity<List<Teacher>> getAllTeachers() {
         return new ResponseEntity<>(teacherService.getAllTeachers(), HttpStatus.OK);

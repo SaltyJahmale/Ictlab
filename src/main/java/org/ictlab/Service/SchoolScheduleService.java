@@ -19,31 +19,45 @@ public class SchoolScheduleService {
         this.schoolScheduleRepository = schoolScheduleRepository;
     }
 
+    /**
+     * @param schoolSchedule
+     */
     public void saveSchoolSchedule(SchoolSchedule schoolSchedule) {
         schoolScheduleRepository.save(schoolSchedule);
     }
 
+    /**
+     * @param startStartCheck
+     * @param startEndCheck
+     * @param endStartCheck
+     * @param endEndCheck
+     * @return List<SchoolSchedule>
+     */
     public List<SchoolSchedule> checkAvailableStartAndEndDate(LocalDateTime startStartCheck, LocalDateTime startEndCheck, LocalDateTime endStartCheck, LocalDateTime endEndCheck) {
         return schoolScheduleRepository.existsByStartBetweenAndEnd(startStartCheck, startEndCheck, endStartCheck, endEndCheck);
     }
 
+    /**
+     * @return List<SchoolSchedule>
+     */
     public List<SchoolSchedule> getAllSchoolSchedules() {
         return schoolScheduleRepository.findAll();
     }
 
+    /**
+     * @param start
+     * @param end
+     * @return List<SchoolSchedule>
+     */
     public List<SchoolSchedule> getAllSchoolSchedulesBetweenDates(LocalDateTime start, LocalDateTime end) {
         return schoolScheduleRepository.findAllByStartGreaterThanAndEndLessThan(start, end);
     }
 
-    public SchoolSchedule getId(Long id) {
-        return schoolScheduleRepository.findId(id);
-    }
-
-    public Optional<SchoolSchedule> getById(Long id) {
-        return schoolScheduleRepository.findById(id);
-    }
-
-    public SchoolSchedule asdas(Long id) {
+    /**
+     * @param id
+     * @return SchoolSchedule
+     */
+    public SchoolSchedule getById(Long id) {
         return schoolScheduleRepository.getOne(id);
     }
     

@@ -23,10 +23,17 @@ public class SensorDataService {
         sensorDataRepository.save(sensorData);
     }
 
+    /**
+     * @param id
+     * @return SensorData
+     */
     public Optional<SensorData> findById(Long id) {
         return sensorDataRepository.findById(id);
     }
 
+    /**
+     * @return List<SensorData>
+     */
     public List<SensorData> findAll() {
         return sensorDataRepository.findAll();
     }

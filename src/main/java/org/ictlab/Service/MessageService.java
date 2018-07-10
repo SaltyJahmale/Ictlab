@@ -20,22 +20,32 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public Optional<Message> getMessageById(Long id) {
-        return messageRepository.findById(id);
-    }
-
+    /**
+     * @param id
+     * @return Message
+     */
     public Message getById(Long id) {
         return messageRepository.getOne(id);
     }
 
+    /**
+     * @param userId
+     * @return List<Message>
+     */
     public List<Message> getAllMessagesByUserId(Long userId) {
         return messageRepository.findAllByUsers_Id(userId);
     }
 
+    /**
+     * @param message
+     */
     public void saveMessage(Message message) {
         messageRepository.save(message);
     }
 
+    /**
+     * @param id
+     */
     public void deleteMessageById(Long id) {
         messageRepository.deleteById(id);
     }

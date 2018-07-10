@@ -27,6 +27,9 @@ public class GroupController {
         this.groupService = groupService;
     }
 
+    /**
+     * @return List<Group>
+     */
     @GetMapping
     public ResponseEntity<List<Group>> getAllGroups() {
 
@@ -39,6 +42,10 @@ public class GroupController {
         return new ResponseEntity<>(groupService.getAllGroups(), HttpStatus.OK);
     }
 
+    /**
+     * @param groupName
+     * @return List<Group>
+     */
     @GetMapping(value = "/{groupName}")
     public ResponseEntity<List<Group>> getAllByName(@PathVariable("groupName") String groupName) {
 

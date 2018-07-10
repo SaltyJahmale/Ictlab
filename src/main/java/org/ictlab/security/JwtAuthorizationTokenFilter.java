@@ -30,6 +30,13 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         this.tokenHeader = tokenHeader;
     }
 
+    /**
+     * @param request
+     * @param response
+     * @param chain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         logger.debug("processing authentication for '{}'", request.getRequestURL());
