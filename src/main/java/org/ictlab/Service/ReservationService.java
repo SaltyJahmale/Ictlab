@@ -21,7 +21,6 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
-
     public void createOrUpdate(Reservation reservation) {
         reservationRepository.save(reservation);
     }
@@ -30,8 +29,16 @@ public class ReservationService {
         return reservationRepository.findById(id);
     }
 
-    public Reservation findByDate(LocalDateTime start, LocalDateTime end) {
-        return reservationRepository.findByStartLessThanEqualAndEndGreaterThanEqual(start, end);
+    public void deleteReservation(Long id) {
+        reservationRepository.deleteById(id);
+    }
+
+    public Reservation findReservationById(Long id) {
+        return reservationRepository.getOne(id);
+    }
+
+    public List<Reservation> getReservationByUserId(Long id) {
+        return reservationRepository.findAllByUsers_id(id);
     }
 
     public Collection<Reservation> findAll() {
@@ -40,6 +47,10 @@ public class ReservationService {
 
     public Collection<Reservation> findInBetweenDates(LocalDateTime start, LocalDateTime end) {
         return reservationRepository.findAllByStartGreaterThanAndEndLessThan(start, end);
+    }
+
+    public List<Reservation> checkAvailableStartAndEndDate(LocalDateTime startStartCheck, LocalDateTime startEndCheck, LocalDateTime endStartCheck, LocalDateTime endEndCheck) {
+        return reservationRepository.existsByStartBetweenAndEnd(startStartCheck, startEndCheck, endStartCheck, endEndCheck);
     }
 
 }

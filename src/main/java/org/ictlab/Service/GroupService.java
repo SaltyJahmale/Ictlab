@@ -18,15 +18,15 @@ public class GroupService {
         this.groupRepository = groupRepository;
     }
 
-    public boolean groupExistByName(String groupName) {
-        return groupRepository.findByGroupName(groupName) != null;
+    public Group getGroupByName(String groupName) {
+        return groupRepository.findByGroupName(groupName);
     }
 
     public List<Group> getAllGroups() {
-        return groupRepository.findAll();
+        return groupRepository.getAllClasses();
     }
 
-    public List<Group> getAllGroupsContaining(String groupName) {
-        return groupRepository.findAllByGroupNameContaining(groupName);
+    public List<Group> getAllGroupsContaining() {
+        return groupRepository.findAll();
     }
 }

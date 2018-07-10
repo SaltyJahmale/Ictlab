@@ -1,11 +1,10 @@
 package org.ictlab.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "SCHOOLSCHEDULE")
@@ -29,30 +28,26 @@ public class SchoolSchedule {
     @NotNull
     private LocalDateTime end;
 
-    @Column(name = "ROOM")
-    @NotNull
-    @ManyToMany(cascade = CascadeType.DETACH)
+    @ManyToMany(cascade = {CascadeType.DETACH})
     @JoinTable(
         name = "SCHOOLSCHEDULE_ROOM",
         joinColumns = {@JoinColumn(name = "SCHOOLSCHEDULE_ID", referencedColumnName = "ID")},
         inverseJoinColumns = {@JoinColumn(name = "ROOM_ID", referencedColumnName = "ID")})
-    @JsonIgnoreProperties("schoolSchedules")
     private List<Room> rooms;
 
-    @Column(name = "CLASS")
-    @NotNull
-    @ManyToMany(cascade = CascadeType.DETACH)
+    @ManyToMany(cascade = {CascadeType.DETACH})
     @JoinTable(
-        name = "SCHOOLSCHEDULE_CLASS",
+        name = "SCHOOLSCHEDULE_APPUSER",
         joinColumns = {@JoinColumn(name = "SCHOOLSCHEDULE_ID", referencedColumnName = "ID")},
-        inverseJoinColumns = {@JoinColumn(name = "CLASS_ID", referencedColumnName = "ID")})
-    @JsonIgnoreProperties("schoolSchedules")
-    private List<Group> groups;
+        inverseJoinColumns = {@JoinColumn(name = "APPUSER_ID", referencedColumnName = "ID")})
+    private List<User> users;
 
-    @Column(name = "TEACHER")
-    @NotNull
-    @ElementCollection
-    private List<String> teacher;
+    @ManyToMany(cascade = {CascadeType.DETACH})
+    @JoinTable(
+        name = "SCHOOLSCHEDULE_TEACHER",
+        joinColumns = {@JoinColumn(name = "SCHOOLSCHEDULE_ID", referencedColumnName = "ID")},
+        inverseJoinColumns = {@JoinColumn(name = "TEACHER_ID", referencedColumnName = "ID")})
+    private List<Teacher> teachers;
 
     public Long getId() {
         return id;
@@ -86,12 +81,12 @@ public class SchoolSchedule {
         this.end = end;
     }
 
-    public List<String> getTeacher() {
-        return teacher;
+    public List<Teacher> getTeachers() {
+        return teachers;
     }
 
-    public void setTeacher(List<String> teacher) {
-        this.teacher = teacher;
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
     }
 
     public List<Room> getRooms() {
@@ -102,11 +97,44 @@ public class SchoolSchedule {
         this.rooms = rooms;
     }
 
-    public List<Group> getGroups() {
-        return groups;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SchoolSchedule that = (SchoolSchedule) o;
+        return Objects.equals(id, that.id) &&
+            Objects.equals(title, that.title) &&
+            Objects.equals(start, that.start) &&
+            Objects.equals(end, that.end) &&
+            Objects.equals(rooms, that.rooms) &&
+            Objects.equals(users, that.users) &&
+            Objects.equals(teachers, that.teachers);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, title, start, end, rooms, users, teachers);
+    }
+
+    @Override
+    public String toString() {
+        return "SchoolSchedule{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", start=" + start +
+            ", end=" + end +
+            ", rooms=" + rooms +
+            ", users=" + users +
+            ", teachers=" + teachers +
+            '}';
     }
 }

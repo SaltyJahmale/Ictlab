@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SchoolScheduleService {
@@ -22,8 +23,8 @@ public class SchoolScheduleService {
         schoolScheduleRepository.save(schoolSchedule);
     }
 
-    public SchoolSchedule findByDate(LocalDateTime start, LocalDateTime end) {
-        return schoolScheduleRepository.findByStartLessThanEqualAndEndGreaterThanEqual(start, end);
+    public List<SchoolSchedule> checkAvailableStartAndEndDate(LocalDateTime startStartCheck, LocalDateTime startEndCheck, LocalDateTime endStartCheck, LocalDateTime endEndCheck) {
+        return schoolScheduleRepository.existsByStartBetweenAndEnd(startStartCheck, startEndCheck, endStartCheck, endEndCheck);
     }
 
     public List<SchoolSchedule> getAllSchoolSchedules() {
@@ -34,5 +35,16 @@ public class SchoolScheduleService {
         return schoolScheduleRepository.findAllByStartGreaterThanAndEndLessThan(start, end);
     }
 
+    public SchoolSchedule getId(Long id) {
+        return schoolScheduleRepository.findId(id);
+    }
+
+    public Optional<SchoolSchedule> getById(Long id) {
+        return schoolScheduleRepository.findById(id);
+    }
+
+    public SchoolSchedule asdas(Long id) {
+        return schoolScheduleRepository.getOne(id);
+    }
     
 }

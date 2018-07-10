@@ -1,5 +1,6 @@
 package org.ictlab.Service;
 
+import org.ictlab.domain.Group;
 import org.ictlab.domain.User;
 import org.ictlab.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ public class UserService {
 
     public void saveUser(User user) {
         if(getUser(user.getUsername()) == null) {
-            System.out.println("Dit is het wachtwoord" + user.getPassword());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userRepository.save(user);
@@ -48,6 +48,14 @@ public class UserService {
 
     public void deleteUser(User user) {
         userRepository.delete(user);
+    }
+
+    public List<User> getAllByClass(Group groupName) {
+        return userRepository.findAllByClassName(groupName);
+    }
+
+    public void saveAllMessages(List<User> users) {
+        userRepository.saveAll(users);
     }
 
 }

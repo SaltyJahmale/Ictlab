@@ -60,18 +60,23 @@ public class MessageController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteMessageById(@PathVariable("id") Long id) {
+    @DeleteMapping(value = "/{id}/{username}")
+    public ResponseEntity deleteMessageById(@PathVariable("id") Long id,
+                                            @PathVariable("username") String username) {
 
-        Optional<Message> message = messageService.getMessageById(id);
+        Message message = messageService.getById(id);
 
         if(message == null) {
             log.info(String.format("Message with id %s could not be found", id));
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
+        User user = userService.getUser(username);
+        user.getMessages().remove(message);
+        userService.saveUser(user);
+
         log.info(String.format("Delete message with id %s", id));
-        messageService.deleteMessageById(id);
+//        messageService.deleteMessageById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

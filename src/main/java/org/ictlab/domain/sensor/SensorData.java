@@ -37,7 +37,6 @@ public class SensorData {
     private SensorMeasurement sensorMeasurement;
 
     @Column( name = "LOCALDATETIME")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime localDateTime;

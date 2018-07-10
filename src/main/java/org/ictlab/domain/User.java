@@ -1,7 +1,6 @@
 package org.ictlab.domain;
 
 import com.fasterxml.jackson.annotation.*;
-import org.hibernate.annotations.Cascade;
 
 import java.util.Date;
 import java.util.List;
@@ -60,23 +59,22 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name = "MESSAGE_APPUSER",
+        name = "APPUSER_MESSAGE",
         joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
         inverseJoinColumns = {@JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID")})
-    @JsonIgnoreProperties("users")
     private List<Message> messages;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name = "RESERVATION_APPUSER",
+        name = "APPUSER_RESERVATION",
         joinColumns = {@JoinColumn(name = "RESERVATION_ID", referencedColumnName = "ID")},
         inverseJoinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")})
     @JsonIgnoreProperties("users")
     private List<Reservation> reservations;
 
-    @ManyToOne
-    @JsonIgnore
-    private Group member;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CLASS_ID")
+    private Group className;
 
     public Long getId() {
         return id;
@@ -166,11 +164,11 @@ public class User {
         this.reservations = reservations;
     }
 
-    public Group getMember() {
-        return member;
+    public Group getClassName() {
+        return className;
     }
 
-    public void setMember(Group member) {
-        this.member = member;
+    public void setClassName(Group className) {
+        this.className = className;
     }
 }

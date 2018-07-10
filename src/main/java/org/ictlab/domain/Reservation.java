@@ -31,7 +31,7 @@ public class Reservation {
 
     @Column(name = "ROOM")
     @NotNull
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = "RESERVATION_ROOM",
         joinColumns = {@JoinColumn(name = "RESERVATION_ID", referencedColumnName = "ID")},

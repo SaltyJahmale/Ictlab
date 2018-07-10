@@ -42,13 +42,14 @@ public class GroupController {
     @GetMapping(value = "/{groupName}")
     public ResponseEntity<List<Group>> getAllByName(@PathVariable("groupName") String groupName) {
 
-        if(!groupService.groupExistByName(groupName)) {
+        Group group = groupService.getGroupByName(groupName);
+        if(group != null) {
             log.info(String.format("No group with groupname: %s could be found", groupName));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         log.info("Succesfully returned a group");
-        return new ResponseEntity<>(groupService.getAllGroupsContaining(groupName), HttpStatus.OK);
+        return new ResponseEntity<>(groupService.getAllGroupsContaining(), HttpStatus.OK);
     }
 
 }

@@ -2,6 +2,7 @@ package org.ictlab.rest;
 
 import org.ictlab.Service.SensorNodeService;
 import org.ictlab.config.MqttConfig;
+import org.ictlab.domain.node.ConnectionSatus;
 import org.ictlab.domain.node.SensorNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,20 +34,24 @@ public class MqttController {
         }
     }
 
-    @PutMapping("/subscribe")
-    public void subscribeToTopic(@RequestBody SensorNode sensorNode) {
+    @PutMapping("/sub/{name}")
+    public void subscribeToTopic(@PathVariable("name") String sensorName) {
         try {
+            SensorNode sensorNode = sensorNodeService.findByName(sensorName);
             sub.subscribe(sensorNode.getTopic());
+            sensorNode.setConnectionStatus(ConnectionSatus.CONNECTED);
             sensorNodeService.createOrUpdate(sensorNode);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
     }
 
-    @PutMapping("/unsubscribe")
-    public void unsubscribeFromTopic(@RequestBody SensorNode sensorNode) {
+    @PutMapping("/unsub/{name}")
+    public void unsubscribeFromTopic(@PathVariable("name") String sensorName) {
         try {
+            SensorNode sensorNode = sensorNodeService.findByName(sensorName);
             sub.unsubscribe(sensorNode.getTopic());
+            sensorNode.setConnectionStatus(ConnectionSatus.DISCONNECTED);
             sensorNodeService.createOrUpdate(sensorNode);
         } catch (Exception e) {
             log.error(e.getMessage());

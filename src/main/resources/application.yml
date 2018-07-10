@@ -17,7 +17,7 @@ spring:
                 use_jdbc_metadata_defaults: false
     datasource:
         platform: postgres
-        url: jdbc:postgresql://192.168.99.100:5432/iotdata
+        url: jdbc:postgresql://localhost:5432/postgres
         username: postgres
         password: mysecretpassword
         driver-class-name: org.postgresql.Driver
@@ -33,8 +33,8 @@ jwt:
             logout: /logout
 
 mqtt:
-    serverip: tcp://192.168.99.100
+    serverip: tcp://192.168.43.73
     serverport: 1883
-
+#tcp://192.168.178.16
 server:
   port: 8000

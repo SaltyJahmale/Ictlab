@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "MESSAGE")
@@ -26,10 +27,6 @@ public class Message {
     @Column(name = "SENDDATE")
     @NotNull
     private LocalDateTime localDateTime;
-
-    @JsonIgnoreProperties("messages")
-    @ManyToMany(mappedBy = "messages")
-    private List<User> users;
 
     public Long getId() {
         return id;
@@ -63,11 +60,30 @@ public class Message {
         this.localDateTime = localDateTime;
     }
 
-    public List<User> getUsers() {
-        return users;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return Objects.equals(id, message.id) &&
+            Objects.equals(state, message.state) &&
+            Objects.equals(msg, message.msg) &&
+            Objects.equals(localDateTime, message.localDateTime);
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, state, msg, localDateTime);
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+            "id=" + id +
+            ", state='" + state + '\'' +
+            ", msg='" + msg + '\'' +
+            ", localDateTime=" + localDateTime +
+            '}';
     }
 }

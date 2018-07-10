@@ -28,11 +28,6 @@ public class Room {
     @JsonIgnore
     @JsonIgnoreProperties("rooms")
     @ManyToMany(mappedBy = "rooms")
-    private List<SchoolSchedule> schoolSchedules;
-
-    @JsonIgnore
-    @JsonIgnoreProperties("rooms")
-    @ManyToMany(mappedBy = "rooms")
     private List<Reservation> reservations;
 
     public Long getId() {
@@ -57,14 +52,6 @@ public class Room {
 
     public void setFloorNumber(String floorNumber) {
         this.floorNumber = floorNumber;
-    }
-
-    public List<SchoolSchedule> getSchoolSchedules() {
-        return schoolSchedules;
-    }
-
-    public void setSchoolSchedules(List<SchoolSchedule> schoolSchedules) {
-        this.schoolSchedules = schoolSchedules;
     }
 
     public List<Reservation> getReservations() {
